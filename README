@@ -1,1 +1,13 @@
-This is the readme
+README file for Getting and Cleaning Data Coursera Project
+Author: Tamas Kerekjarto
+
+In order to fulfill the requirements of the course project please:
+1. Make sure your default library path contains a directory called data in which the sample files are placed with the same
+    file structure and naming convention as indicated in the project description
+2. Run the run_analysis.R code file that will load in all necessary files and generate two data sets.
+3. Generated data sets are : final_combined_set and tidyData; first being the combined training and test data sets merged with subjects and activity labels and the second being the average of each variable for each activity and each subject.
+4. Both data sets are written out to seperate txt files under the directory "data" named: final_combined_set.txt and second_tidy_data_set.txt
+5. The code assumes that the packages plyr and reshape2 are installed!!!!!!!!!!!!!
+6. run_analysis.R contains step by step code comments describing each function calls.
+
+Enjoy!!!!

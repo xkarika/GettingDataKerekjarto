@@ -33,11 +33,11 @@ names(y_train_final)[1] <- "subject"
 
 ######################################################## Test ##############################
 #read in the test set related tables 
-y_train_labels <- read.table("./data/UCI HAR DATASET/train/y_train.txt", header=FALSE, sep="")
-X_train <- read.table("./data/UCI HAR Dataset/train/X_train.txt", header=FALSE, sep="")
+y_test_labels <- read.table("./data/UCI HAR DATASET/test/y_test.txt", header=FALSE, sep="")
+X_test <- read.table("./data/UCI HAR Dataset/test/X_test.txt", header=FALSE, sep="")
 
 #adding column names to tables
-colnames(y_train_labels) <- c("id")
+colnames(y_test_labels) <- c("id")
 
 #join/mash the activity labels with the y_train_lables to be able to assign descriptive activity names to the train dataset
 y_test_labels_new <- join(y_test_labels,activity_labels, type="left", by="id")
@@ -57,8 +57,24 @@ y_test_final <- cbind(subject_test, y_test_final)
 names(y_test_final)[1] <- "subject"
 
 ############################ Merging the test and train data sets #########################################
+combined_set <- rbind(y_test_final, y_train_final)
 selected <- c(colnames(combined_set)[1:2],grep("mean", colnames(combined_set), value=TRUE),grep("std", colnames(combined_set), value=TRUE) )
 final_combined_set <- combined_set[,c(selected)]
 
+#create tidy data set #1 and write it to a file
+if(!file.exists("./data/final_combined_set.txt")){
+     write.table(final_combined_set,file="./data/final_combined_set.txt", sep=" ")
+ }
+
+########################################Create second tidydata set ###########################################
+library(reshape2)
+#use melt from reshape library to convert dataset to "long"
+meltedSet <- melt(final_combined_set, id=c("subject","activity_name"), measure.vars=colnames(final_combined_set)[3:81])
+tidyData <- dcast(meltedSet, subject + activity_name ~ variable, fun.aggregate=mean, na.rm=TRUE)
+
+#write second tidy data set called tidyData
+if(!file.exists("./data/second_tidy_data_set.txt")){
+  write.table(final_combined_set,file="./data/second_tidy_data_set.txt", sep=" ")
+}
 
 
